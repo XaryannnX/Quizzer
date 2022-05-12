@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'questionclass.dart';
 
 void main() => runApp(Quizzler());
 
@@ -25,6 +26,16 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+   List<Icon> scorekeeper = [];
+
+  List<Question> questionBank =[
+    Question(q:'You can lead a cow down stairs but not up stairs.', a: false),
+    Question(q:'Approximately one quarter of human bones are in the feet.', a:true),
+    Question(q:'A slug\'s blood is green.',a:true),
+  ];
+
+  int questionNumber = 0;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,7 +48,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question text will go.',
+                questionBank[questionNumber].questionText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -61,7 +72,16 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //The user picked true.
+                bool correctanswer = questionBank[questionNumber].questionAnswer;
+                if (correctanswer==true){
+                  print ('The user got it right ');
+                }
+                else {
+                  print ('User got it wrong');
+                }
+                setState(() {
+                  questionNumber++;
+                });
               },
             ),
           ),
@@ -79,12 +99,34 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                bool correctanswer = questionBank[questionNumber].questionAnswer;
+                if (correctanswer==false){
+                  print ('The user got it wrong ');
+                }
+                else {
+                  print ('User got it right');
+                }
+                setState(() {
+                  questionNumber++;
+                });
+
                 //The user picked false.
               },
             ),
           ),
         ),
         //TODO: Add a Row here as your score keeper
+        Row (
+          children: [
+            Icon(
+              Icons.check,
+              color: Colors.green,
+            ),
+            Icon(
+            Icons.close,
+            color: Colors.red),
+          ],
+        )
       ],
     );
   }
